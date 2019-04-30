@@ -9,14 +9,15 @@
   ],
   "scripts": {
     "create": "tsc && claudia create --api-module bin/index",
-    "update": "tsc && claudia update --api-module bin/index",
-    "pack": "tsc && claudia pack --api-module bin/iindex --force"
+    "update": "tsc && claudia update --api-module bin/index --set-env-from-json ./.env",
+    "pack": "tsc && claudia pack --api-module bin/iindex --force ./.env"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/elasticsearch": "^5.0.32",
     "@types/joi": "^14.3.3",
+    "@types/node": "^11.13.8",
     "claudia-api-builder": "^4.1.2",
     "elasticsearch": "^15.4.1",
     "joi": "^14.3.1",
