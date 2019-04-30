@@ -6,11 +6,12 @@ import _ from 'lodash'
 export default class SearchWordService {
   public async searchWord(word: string) : Promise<SearchWordDto> | never {
     const client = new Elasticsearch.Client({
-      hosts: `${process.env.ES_ENDPOINT}/${process.env.ES_INDEX_WORDS}`,
+      hosts: process.env.ES_ENDPOINT,
       connectionClass: require('http-aws-es'),
       log: 'trace'
     });
     const response = await client.search({
+      index: process.env.ES_INDEX_WORDS,
       body: {
         query: {
           match_all: {}
@@ -26,7 +27,6 @@ export default class SearchWordService {
         new WordEntity(omitted.id, omitted.word1, omitted.word2, omitted.word3, omitted.created_at)
       )
     });
-    const searchWordDto = new SearchWordDto(response.hits.total, wordEntities)
-    return searchWordDto
+    return new SearchWordDto(response.hits.total, wordEntities)
   }
 }
