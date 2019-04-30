@@ -1,0 +1,25 @@
+{
+  "name": "claudia-api-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/index.js",
+  "files": [
+    "bin/**/*.*",
+    "package.json"
+  ],
+  "scripts": {
+    "create": "tsc && claudia create --api-module bin/index",
+    "update": "tsc && claudia update --api-module bin/index",
+    "pack": "tsc && claudia pack --api-module bin/iindex --force"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/elasticsearch": "^5.0.32",
+    "@types/joi": "^14.3.3",
+    "claudia-api-builder": "^4.1.2",
+    "elasticsearch": "^15.4.1",
+    "joi": "^14.3.1",
+    "typescript": "^3.4.5"
+  }
+}
