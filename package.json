@@ -8,8 +8,8 @@
     "package.json"
   ],
   "scripts": {
-    "create": "tsc && claudia create --api-module bin/index",
-    "update": "tsc && claudia update --api-module bin/index --set-env-from-json ./.env",
+    "create": "tsc && claudia create --api-module bin/index --set-env-from-json ./.env --timeout 60",
+    "update": "tsc && claudia update --api-module bin/index --set-env-from-json ./.env --timeout 60",
     "pack": "tsc && claudia pack --api-module bin/iindex --force ./.env"
   },
   "author": "",
@@ -17,10 +17,13 @@
   "dependencies": {
     "@types/elasticsearch": "^5.0.32",
     "@types/joi": "^14.3.3",
+    "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.8",
     "claudia-api-builder": "^4.1.2",
     "elasticsearch": "^15.4.1",
+    "http-aws-es": "^6.0.0",
     "joi": "^14.3.1",
+    "lodash": "^4.17.11",
     "typescript": "^3.4.5"
   }
 }
