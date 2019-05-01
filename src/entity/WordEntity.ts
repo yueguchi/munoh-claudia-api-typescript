@@ -1,3 +1,4 @@
+/** Elastisearchのwordsインデックスwordtypeに相当するエンティティ */
 export default class WordEntiy {
   constructor(
     private _id: string,
@@ -14,6 +15,6 @@ export default class WordEntiy {
   public set word2(word: string) { this._word2 = word}
   public get word3(): string { return this._word3 }
   public set word3(word: string) { this._word3 = word}
-  public get createdAt(): number { return this._createdAt }
-  public set createdAt(createdAt: number) { this._createdAt = createdAt}
+  public get created_at(): number { return this._createdAt }
+  public set created_at(createdAt: number) { this._createdAt = createdAt}
 }

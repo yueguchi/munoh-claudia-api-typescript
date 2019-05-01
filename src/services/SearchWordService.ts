@@ -3,22 +3,22 @@ import SearchWordDto from '../dto/SearchWordDto'
 import WordEntity from '../entity/WordEntity'
 import _ from 'lodash'
 import request from 'request-promise'
+import SeparatedWordsEntity from '../entity/SeparatedWordsEntity'
 
 export default class SearchWordService {
 
   /**
    * 受け取った単語をわかり書きAPIに掛けた結果からランダムに抽出した単語を返す
    * @param word 会話文
+   * @returns string
    */
-  public async getSeparated1Word(word: string): Promise<any> | never {
+  public async getSeparated1Word(word: string): Promise<SeparatedWordsEntity> | never {
     const options = {
       url: `${process.env.MECAB_SEPARATE_API_ENDPOINT}${word}`,
       method: 'GET'
     }
     const result = await request(options)
-    const json = JSON.parse(result)　
-    // TODO wordsの配列からランダムで返す予定
-    return json
+    return JSON.parse(result)
   }
   /**
    * 会話から抽出・選定された代表単語より会話文をElasticSearchより取得する
@@ -42,9 +42,9 @@ export default class SearchWordService {
     const wordEntities: WordEntity[] = []
     response.hits.hits.forEach(record => {
       // updated_at以外を抽出
-      const omitted = _.omit(record._source, ['updated_at']) as any;
+      const { id, word1, word2, word3, created_at } = _.omit(record._source, ['updated_at']) as WordEntity;
       wordEntities.push(
-        new WordEntity(omitted.id, omitted.word1, omitted.word2, omitted.word3, omitted.created_at)
+        new WordEntity(id, word1, word2, word3, created_at)
       )
     });
     return new SearchWordDto(response.hits.total, wordEntities)
