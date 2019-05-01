@@ -36,7 +36,7 @@ api.get('/repl/word/{word}', async (request: any) => {
   // 1単語をランダムに選択
   const targetWord = separatedJson.words[Math.floor(Math.random() * Math.floor(separatedJson.words.length))]
   // 会話文を返す
-  return new SerachWordService().searchWord(targetWord)
+  return new SerachWordService().getReply(targetWord)
 })
 
 export = api;

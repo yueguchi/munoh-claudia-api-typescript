@@ -25,17 +25,24 @@ export default class SearchWordService {
    * 
    * @param word 代表単語
    */
-  public async searchWord(word: string) : Promise<SearchWordDto> | never {
+  public async getReply(word: string) : Promise<SearchWordDto> | never {
     const client = new Elasticsearch.Client({
       hosts: process.env.ES_ENDPOINT,
       connectionClass: require('http-aws-es'),
       log: 'trace'
     });
+    // ロジックがマルコフじゃないので直す
     const response = await client.search({
       index: process.env.ES_INDEX_WORDS,
       body: {
         query: {
-          match_all: {}
+          bool: {
+            should: [
+              { match : { "word1.keyword" : word }},
+              { match : { "word2.keyword": word }},
+              { match : { "word.keyword3": word }}
+            ]
+          }
         }
       }
     })
