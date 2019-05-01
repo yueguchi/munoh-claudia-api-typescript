@@ -18,6 +18,12 @@ api.get('/words/word1/{word}/{date}', (request: any) => {
   return result
 })
 
+api.get('/sepatate/word/{word}', (request: any) => {
+  const result = TestValidator.checkWord(request.pathParams)
+  if (result.error) return new ApiBuilder.ApiResponse(result.error.details, Consts.ErrorResponseHeader, 400)
+  return new SerachWordService().getSeparated1Word(request.pathParams.word)
+})
+
 api.get('/es/word/{word}', (request: any) => {
   const result = TestValidator.checkWord(request.pathParams)
   if (result.error) return new ApiBuilder.ApiResponse(result.error.details, Consts.ErrorResponseHeader, 400)
