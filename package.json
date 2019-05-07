@@ -18,16 +18,22 @@
     "@types/elasticsearch": "^5.0.32",
     "@types/joi": "^14.3.3",
     "@types/lodash": "^4.14.123",
+    "@types/moment": "^2.13.0",
     "@types/node": "^11.13.8",
     "@types/request": "^2.48.1",
     "@types/request-promise": "^4.1.43",
+    "@types/uuid": "^3.4.4",
     "claudia-api-builder": "^4.1.2",
     "elasticsearch": "^15.4.1",
     "http-aws-es": "^6.0.0",
     "joi": "^14.3.1",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "uuid": "^3.3.2",
+    "@types/aws-sdk": "^2.7.0",
+    "aws-sdk": "^2.449.0"
   }
 }

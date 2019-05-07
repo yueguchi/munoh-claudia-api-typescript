@@ -1,7 +1,7 @@
 import ApiBuilder from 'claudia-api-builder'
 import TestValidator from './libs/validators/TestValidator'
 import Consts from './libs/Consts'
-import SerachWordService from './services/SearchWordService'
+import ReplyService from './services/ReplyService'
 
 const api: ApiBuilder = new ApiBuilder()
 api.get('/', () => 'healthy')
@@ -24,7 +24,7 @@ api.get('/words/word1/{word}/{date}', (request: any) => {
 api.get('/sepatate/word/{word}', (request: any) => {
   const result = TestValidator.checkWord(request.pathParams)
   if (result.error) return new ApiBuilder.ApiResponse(result.error.details, Consts.ErrorResponseHeader, 400)
-  return new SerachWordService().getSeparated1Word(request.pathParams.word)
+  return new ReplyService().getSeparated1Word(request.pathParams.word)
 })
 
 /** 分かち書き結果から、1単語を抽出し、その単語に対するREPLを返すAPI */
@@ -32,11 +32,11 @@ api.get('/repl/word/{word}', async (request: any) => {
   const result = TestValidator.checkWord(request.pathParams)
   if (result.error) return new ApiBuilder.ApiResponse(result.error.details, Consts.ErrorResponseHeader, 400)
   // わかち書きAPIより単語配列を抽出
-  const separatedJson = await new SerachWordService().getSeparated1Word(request.pathParams.word)
+  const separatedJson = await new ReplyService().getSeparated1Word(request.pathParams.word)
   // 1単語をランダムに選択
   const targetWord = separatedJson.words[Math.floor(Math.random() * Math.floor(separatedJson.words.length))]
   // 会話文を返す
-  return new SerachWordService().getReply(targetWord)
+  return new ReplyService().getReply(targetWord, separatedJson.words)
 })
 
 export = api;
