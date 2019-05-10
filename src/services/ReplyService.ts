@@ -49,7 +49,7 @@ export default class ReplyService {
     const replyWords: string[] = [word]
     if (!response1.hits.hits[0]) {
       // 本当は非同期(SQSなど)でDynamoDBに登録したいが、一旦Dyanmoにここで入れる
-      new RegistWordService().registWord(separatedWords)
+      await new RegistWordService().registWord(separatedWords)
       return new ReplyDto(Consts.DEFAULT_MESSAGE)
     }
     const { word1} = _.omit(response1.hits.hits[0]._source, ['updated_at']) as WordEntity;

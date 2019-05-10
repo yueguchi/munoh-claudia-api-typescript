@@ -19,7 +19,6 @@ export default class RegistWordService {
       })
       for (let items of threeChunkedNullPaddedArray) {
         console.info(`登録単語: ${items.join()}`)
-        // TODO うんともすんとも言わない...データは挿入されない。エラーも起きない。
         await docClient.put({
           TableName: "words",
           Item: {
@@ -31,12 +30,8 @@ export default class RegistWordService {
               updated_at: moment().unix()
           }
         }, function(err, data) {
-          if (err) {
-            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-          } else {
-            console.log("Added item:", JSON.stringify(data, null, 2));
-          }
-        })
+          if (err) console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2))
+        }).promise()
       }
     }
   }
