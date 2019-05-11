@@ -1,7 +1,6 @@
 import * as AWS from 'aws-sdk'
 const docClient = new AWS.DynamoDB.DocumentClient({region: process.env.AWS_REGION || 'ap-northeast-1'});
 import uuid4 from 'uuid/v4'
-import _ from 'lodash'
 import moment from 'moment'
 
 export default class RegistWordService {
@@ -12,11 +11,14 @@ export default class RegistWordService {
    */
   public async registWord(words: string[]) {
     if (words.length > 0) {
-      const threeChunkedNullPaddedArray = _.chunk(words, 3).map(arr => {
-        if (!arr[1]) arr[1] = null
-        if (!arr[2]) arr[2] = null
-        return arr
-      })
+      const threeChunkedNullPaddedArray = [];
+      words.map((word, index) => {
+          const tmp = []
+          tmp.push(word);
+          tmp.push(words[index + 1] || null);
+          tmp.push(words[index + 2] || null);
+          threeChunkedNullPaddedArray.push(tmp);
+      });
       for (let items of threeChunkedNullPaddedArray) {
         console.info(`登録単語: ${items.join()}`)
         await docClient.put({
