@@ -40,7 +40,7 @@ export default class ReplyService {
         query: {
           bool: {
             should: [
-              { match : { "word2.keyword" : word }}
+              { match : { "word1.keyword" : word }}
             ]
           }
         }
@@ -52,24 +52,24 @@ export default class ReplyService {
       await new RegistWordService().registWord(separatedWords)
       return new ReplyDto(Consts.DEFAULT_MESSAGE)
     }
-    const { word1} = _.omit(response1.hits.hits[0]._source, ['updated_at']) as WordEntity;
-    if (word1) {
-      replyWords.push(word1)
+    const { word2 } = _.omit(response1.hits.hits[0]._source, ['updated_at']) as WordEntity;
+    if (word2) {
+      replyWords.push(word2)
       const response2 = await client.search({
         index: process.env.ES_INDEX_WORDS,
         body: {
           query: {
             bool: {
               should: [
-                { match : { "word3.keyword" : word1 }}
+                { match : { "word2.keyword" : word2 }}
               ]
             }
           }
         }
       })
       if (response2.hits.hits[0]) {
-        const { word2 } = _.omit(response2.hits.hits[0]._source, ['updated_at']) as WordEntity;
-        if (word2) replyWords.push(word2)
+        const { word3 } = _.omit(response2.hits.hits[0]._source, ['updated_at']) as WordEntity;
+        if (word3) replyWords.push(word3)
       }
     }
     return new ReplyDto(replyWords.join(''))
