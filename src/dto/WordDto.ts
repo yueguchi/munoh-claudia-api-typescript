@@ -1,5 +1,5 @@
 /** Elastisearchのwordsインデックスwordtypeに相当するエンティティ */
-export default class WordEntiy {
+export default class WordDto {
   constructor(
     private _id: string,
     private _word1: string,

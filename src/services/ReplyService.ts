@@ -1,9 +1,9 @@
 import * as Elasticsearch from 'elasticsearch'
 import ReplyDto from '../dto/ReplyDto'
-import WordEntity from '../entity/WordEntity'
+import WordDto from '../dto/WordDto'
 import _ from 'lodash'
 import request from 'request-promise'
-import SeparatedWordsEntity from '../entity/SeparatedWordsEntity'
+import SeparatedWordsDto from '../dto/SeparatedWordsDto'
 import Consts from '../libs/Consts';
 import RegistWordService from './RegistWordService'
 
@@ -14,7 +14,7 @@ export default class ReplyService {
    * @param word 会話文
    * @returns string
    */
-  public async getSeparated1Word(word: string): Promise<SeparatedWordsEntity> | never {
+  public async getSeparatedWords(word: string): Promise<SeparatedWordsDto> | never {
     const options = {
       url: `${process.env.MECAB_SEPARATE_API_ENDPOINT}${word}`,
       method: 'GET'
@@ -52,7 +52,7 @@ export default class ReplyService {
       await new RegistWordService().registWord(separatedWords)
       return new ReplyDto(Consts.DEFAULT_MESSAGE)
     }
-    const { word2 } = _.omit(response1.hits.hits[0]._source, ['updated_at']) as WordEntity;
+    const { word2 } = _.omit(response1.hits.hits[0]._source, ['updated_at']) as WordDto;
     if (word2) {
       replyWords.push(word2)
       const response2 = await client.search({
@@ -68,7 +68,7 @@ export default class ReplyService {
         }
       })
       if (response2.hits.hits[0]) {
-        const { word3 } = _.omit(response2.hits.hits[0]._source, ['updated_at']) as WordEntity;
+        const { word3 } = _.omit(response2.hits.hits[0]._source, ['updated_at']) as WordDto;
         if (word3) replyWords.push(word3)
       }
     }
